@@ -7,9 +7,10 @@
     "@testing-library/react": "^11.1.1",
     "@testing-library/user-event": "^12.2.0",
     "axios": "^0.21.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "mongoose": "^5.10.13",
+    "mysql": "^2.18.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
@@ -21,7 +22,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "db": "C:\\\"Program Files\"\\MongoDB\\Server\\4.4\\bin\\mongod.exe",
     "server": "node server.js"
   },
   "eslintConfig": {

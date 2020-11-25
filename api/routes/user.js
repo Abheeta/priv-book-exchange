@@ -3,7 +3,12 @@ const router = express.Router();
 const userController = require("../controllers/userController.js");
 
 router.use(express.json());
+router.use(express.urlencoded());
 
 router.post("/users", (req, res) => userController.createUser(req, res));
+
+router.get("/users/:username&:password", (req, res) => userController.validateLogin(req, res));
+
+router.get("/users/:username", (req, res) => userController.checkUsername(req, res));
 
 module.exports = router;

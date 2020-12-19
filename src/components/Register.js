@@ -1,25 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
-import { useAuth, AuthContext } from "../context/auth.js";
+import { Redirect, useHistory } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import Axios from 'axios';
 
 function Register() {
-    // const changeAuth = useAuth();
-    //         console.log(changeAuth);
-    const {auth, updateAuth} = useAuth();
-    //const authConsumer = useAuth();
-    console.log(auth);
-    const [ userData, setUser ] = useState({
-        name: '',
-        username: '',
-        email: '',
-        password: '',
-        password_confirm: '',
-        city: 'Bangalore',
-        address: ''
-    });
+    const history = useHistory();
 
     const RegisterSchema = Yup.object().shape({
         name: Yup.string().required("Name is required"),
@@ -41,21 +27,22 @@ function Register() {
 
     useEffect(() => {
         console.log("registering");
-        if(auth.auth) {
-            return <Redirect to='/' />
+        if(JSON.parse(localStorage.getItem("auth")).auth) {
+            history.push("/");
         }
-    }, [auth]);
+    }, []);
 
     const finishRegister = (values) => {
         console.log("submitting");
         console.log(values);
         Axios.post("http://localhost:8000/api/users", values).then(async (res) => {
             console.log(res);
-            await updateAuth({
+            await localStorage.setItem("auth",JSON.stringify({
                 auth: true, 
                 type: "user", 
                 user: values.username
-            });
+            }));
+            history.push("/");
         });
     }
 

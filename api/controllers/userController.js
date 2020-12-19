@@ -67,7 +67,6 @@ exports.validateLogin = (req, res) => {
 };
 
 exports.checkUsername = (req, res) => {
-    console.log("hello");
     var user;
     db_connection.query(
         `SELECT username FROM Users WHERE username = "${req.params.username}";`,

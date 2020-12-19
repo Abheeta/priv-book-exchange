@@ -4,9 +4,13 @@ import { useAuth, AuthContext } from "../context/auth.js";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import Axios from 'axios';
-// Axios.defaults.headers.get['Access-Control-Allow-Origin'] = 'http://localhost:8000';
 
 function Register() {
+    // const changeAuth = useAuth();
+    //         console.log(changeAuth);
+    const {auth, updateAuth} = useAuth();
+    //const authConsumer = useAuth();
+    console.log(auth);
     const [ userData, setUser ] = useState({
         name: '',
         username: '',
@@ -20,16 +24,12 @@ function Register() {
     const RegisterSchema = Yup.object().shape({
         name: Yup.string().required("Name is required"),
         username: Yup.string().required("Username is Required").matches(/^[a-zA-Z0-9_]*$/, "username can only contain these [a-zA-Z0-9_]")
-            .test("usernameValid", "Username exists", (value) => {
-                // if(value !== "Abheetha")
-                //     return false;
-                // return true;
-                console.log(value)
-                Axios.get(`http://localhost:8000/api/users/${value}`).then((res) => {
-                    console.log(res);
-                }).catch((reason) => {
-                    console.log(reason);
-                });
+            .test("usernameValid", "Username exists", async (value) => {
+                var exists;
+                await Axios.get(`http://localhost:8000/api/users/${value}`).then((res) => {
+                    exists = !res.data.err;
+                })
+                return exists;
             }),
         email: Yup.string().email("Invalid Email").required("Email is Required"),
         password: Yup.string().required("Password is Required")
@@ -41,15 +41,24 @@ function Register() {
 
     useEffect(() => {
         console.log("registering");
-        if(AuthContext.auth) {
+        if(auth.auth) {
             return <Redirect to='/' />
         }
-    }, []);
+    }, [auth]);
 
     const finishRegister = (values) => {
         console.log("submitting");
-
+        console.log(values);
+        Axios.post("http://localhost:8000/api/users", values).then(async (res) => {
+            console.log(res);
+            await updateAuth({
+                auth: true, 
+                type: "user", 
+                user: values.username
+            });
+        });
     }
+
     
     return (
         <div>

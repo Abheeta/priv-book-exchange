@@ -1,14 +1,19 @@
 const express = require("express");
-const userRouter = require("./api/routes/user.js")
+const bodyParser = require("body-parser");
+const router = express.Router();
+const userRouter = require("./api/routes/user.js");
+const deliveryUserRouter = require("./api/routes/deliveryUser.js");
 const app = express();
 const cors = require("cors");
 
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
 app.use(cors());
 
-app.use("/api", userRouter);
-
-app.use(express.json());
-app.use(express.urlencoded());
+userRouter(router);
+deliveryUserRouter(router);
+app.use("/api", router);
 
 const db_connection = require("./schema/schema.js");
 

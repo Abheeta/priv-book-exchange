@@ -6,19 +6,20 @@ const bcryptjs = require("bcryptjs");
 
 app.use(bodyParser.urlencoded({extended: true}));
 
-exports.createUser = (req, res) => {
+exports.createUser = (req, res, type) => {
+    console.log(req.body);
     bcryptjs.genSalt(10, (err, salt) => {
         if(err) throw err;
         bcryptjs.hash(req.body.password, salt, (err, hash) => {
             if(err) throw err;
             db_connection.query(
-                `INSERT INTO Users VALUES(
+                `INSERT INTO ${type} VALUES(
                     "${req.body.name}",
                     "${req.body.username}",
                     "${req.body.email}",
                     "${hash}",
                     "${req.body.city}",
-                    "${req.body.address}"
+                    "${ type == "Users" ? req.body.address : parseInt(req.body.status) }"
                 )`,
                 (err, result) => {
                     if (err) throw err;
@@ -32,10 +33,10 @@ exports.createUser = (req, res) => {
     });
 };
 
-exports.validateLogin = (req, res) => {
+exports.validateLogin = (req, res, type) => {
     var user;
     db_connection.query(
-        `SELECT username, password FROM Users WHERE username = "${req.params.username}";`,
+        `SELECT username, password FROM ${type} WHERE username = "${req.params.username}";`,
         (err, result) => {
             if (err) throw err;
             user = result[0];
@@ -66,10 +67,10 @@ exports.validateLogin = (req, res) => {
     });
 };
 
-exports.checkUsername = (req, res) => {
+exports.checkUsername = (req, res, type) => {
     var user;
     db_connection.query(
-        `SELECT username FROM Users WHERE username = "${req.params.username}";`,
+        `SELECT username FROM ${type} WHERE username = "${req.params.username}";`,
         (err, result) => {
             // if (err) throw err;
             user = result[0];

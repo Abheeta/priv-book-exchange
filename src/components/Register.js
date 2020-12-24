@@ -3,8 +3,12 @@ import { Redirect, useHistory } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import Axios from 'axios';
+import Cookie from "universal-cookie";
+const cookies = new Cookie();
 
 function Register() {
+    const [ registerType, changeRegisterType ] = useState("User");
+
     const history = useHistory();
 
     const RegisterSchema = Yup.object().shape({
@@ -12,9 +16,14 @@ function Register() {
         username: Yup.string().required("Username is Required").matches(/^[a-zA-Z0-9_]*$/, "username can only contain these [a-zA-Z0-9_]")
             .test("usernameValid", "Username exists", async (value) => {
                 var exists;
-                await Axios.get(`http://localhost:8000/api/users/${value}`).then((res) => {
-                    exists = !res.data.err;
-                })
+                if(registerType === "User") {
+                    await Axios.get(`http://localhost:8000/api/users/${value}`).then((res) => {
+                        exists = !res.data.err;
+                })}
+                else {
+                    await Axios.get(`http://localhost:8000/api/delivery-users/${value}`).then((res) => {
+                        exists = !res.data.err;
+                })}
                 return exists;
             }),
         email: Yup.string().email("Invalid Email").required("Email is Required"),
@@ -27,7 +36,7 @@ function Register() {
 
     useEffect(() => {
         console.log("registering");
-        if(JSON.parse(localStorage.getItem("auth")).auth) {
+        if(cookies.get("auth").auth) {
             history.push("/");
         }
     }, []);
@@ -35,13 +44,15 @@ function Register() {
     const finishRegister = (values) => {
         console.log("submitting");
         console.log(values);
-        Axios.post("http://localhost:8000/api/users", values).then(async (res) => {
+        const url = registerType === "User" ? "user" : "delivery-user";
+
+        Axios.post(`http://localhost:8000/api/${url}s`, {...values, status: 1}).then(async (res) => {
             console.log(res);
-            await localStorage.setItem("auth",JSON.stringify({
+            await cookies.set("auth", {
                 auth: true, 
-                type: "user", 
+                type: url, 
                 user: values.username
-            }));
+            });
             history.push("/");
         });
     }
@@ -49,7 +60,7 @@ function Register() {
     
     return (
         <div>
-            <h1>Register</h1>
+            <h1>Register as {registerType}</h1>
             <Formik 
                 initialValues = {{
                     name: '',
@@ -94,14 +105,27 @@ function Register() {
                     {errors.city && touched.city ? (
                         <div>{errors.city}</div>
                     ) : <br></br>}
-                    <label>Address:<Field name="address" /></label>
-                    {errors.address && touched.address ? (
-                        <div>{errors.address}</div>
-                    ) : <br></br>}
+
+                    { registerType === "User" ? (
+                        <div>
+                            <label>Address:<Field name="address" /></label>
+                            {errors.address && touched.address ? (
+                                <div>{errors.address}</div>
+                            ) : <br></br>}
+                        </div>
+                    ) : (
+                        <div></div>
+                    ) }
+                    
                     <button type="submit">Register</button>
                 </Form>
             )}
             </Formik>
+            { registerType === "User" ? (
+                <div><button onClick={(e) => {changeRegisterType("Delivery User")}}>Register to deliver</button></div>
+                ) : (
+                <div><button onClick={(e) => {changeRegisterType("User")}}>Register to exchange books</button></div>
+                )}
         </div>
     )
 }

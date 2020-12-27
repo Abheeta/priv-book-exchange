@@ -17,43 +17,36 @@ function Search() {
                     changeSearchResults([]);
                 }   
                 else
-                
                     changeSearchResults(result.data.items);
-
             });
         }
 
     },[searchText])
 
-    const finishSearch = (e) => {
+    const finishSearch = async (e) => {
         e.preventDefault();
-        console.log(e.key);
+        await changeSearchText("");
         history.push(`/search?q=${searchText.replace(/ /g,"+")}`);
     }
 
-    const searchBook = (e) => {
-        //history.push(`/book/${book.id}`)
-        //console.log(e.nativeEvent.key);
-            console.log(e);
+    const searchBook = async (e, book) => {
         e.preventDefault();
+        await changeSearchText("");
+        history.push(`/book/${book.id}`)
     }
-    
     
     return (
         <div>
             <form onSubmit = {(e) => finishSearch(e) }>
-                
-                <input type = "text" placeholder = "Search for a book" value = {searchText} onChange = {(e) => changeSearchText(e.target.value)} list = "searchList" onSelect = {(e) => searchBook(e)} />
-                <datalist id = "searchList" >
+                <input type="text" placeholder="Search for a book" value={searchText} onChange={(e) => changeSearchText(e.target.value)}/>
+                {searchResults.length > 0 ?
+                (<div className="dropdown-content">
                     {searchResults.map((result, index) => {
-                        console.log(result.id, result.volumeInfo.title);
-                        return (<option value = {result.volumeInfo.title} key ={result.id} id = {result.id}/>
-                        )
+                        return(<div className="links" key={result.id} onClick={(e) => searchBook(e, result)}>{result.volumeInfo.title}</div>)
                     })}
-                    {
-                    /* <option value = "random"/>
-                    <option value = "anotherrandom"/> */}
-                </datalist>
+                </div>) :
+                (<div></div>)
+            }
 
                 
             </form>

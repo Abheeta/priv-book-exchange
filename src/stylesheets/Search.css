@@ -16,3 +16,17 @@ input[type=text] {
 
 input::-webkit-calendar-picker-indicator { display: none; }
 
+.dropdown-content {
+    display: block;
+    position: absolute;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content div.links {
+    background-color: #ffffff;
+    color:black;
+}
+
+.dropdown-content div.links:hover  {background-color: #a7a7a7;}

@@ -7,6 +7,7 @@ import Register from './components/Register';
 import Test from './components/Test';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
+import Books from './components/Books';
 const cookies = new Cookie();
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route path="/test" component={Test} />
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
+          <Route path="/book/:id" component={Books} />
         </Switch>
       </Router>
     </div>

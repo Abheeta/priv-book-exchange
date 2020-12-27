@@ -2,8 +2,8 @@ const mysql = require('mysql');
 
 const db_connection = mysql.createConnection({
     host: "localhost",
-    user: "root",
-    password: "breadmould12!",
+    user: "enigma",
+    password: "",
     database: "book_exchange"
   });
 
@@ -62,7 +62,7 @@ db_connection.connect(function(err) {
     "CREATE TABLE IF NOT EXISTS DeliveryStatus (id VARCHAR(16) PRIMARY KEY, username VARCHAR(16) NOT NULL, Foreign Key (username) References DeliveryUsers(username) ON DELETE CASCADE, buyrequest_id VARCHAR(16) NOT NULL, Foreign Key (buyrequest_id) References BuyRequests(id), status VARCHAR(10));",
     function (err, result) {
       if (err) throw err;
-      console.log("Table 'DeliveryStatus'created");    
+      console.log("Table 'DeliveryStatus' created");    
   });
       
 });

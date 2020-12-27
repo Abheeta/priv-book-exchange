@@ -48,4 +48,6 @@ nav {
 
 .logo{
   padding: 0 0 0 20px ;
+  cursor: pointer;
 }
+

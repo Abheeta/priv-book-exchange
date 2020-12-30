@@ -11,6 +11,7 @@ import Sell from './components/Sell';
 import Buy from './components/Buy';
 import Wishlist from './components/Wishlist';
 import Sales from './components/Sales';
+import Home from './components/Home';
 const cookies = new Cookie();
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
       <Router>
         <Navbar />
         <Switch>
+          <Route path="/" exact component={Home} />
           <Route path="/register" exact component={Register} />
           <Route path="/login" exact component={Login} />
           <Route path="/book/:id" exact component={Books} />

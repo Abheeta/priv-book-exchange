@@ -2,13 +2,14 @@ import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import Cookie from "universal-cookie";
+import { string } from 'yup';
 const cookies = new Cookie();
 
 function Sales() {
     const history = useHistory();
     const params = useParams();
     const [ auth, changeAuth ] = useState(cookies.get("auth"));
-    const [ sales, changeSales ] = useState("");
+    const [ sales, changeSales ] = useState([]);
 
     useEffect(() => {
         if(auth.user !== params.username & auth.type !== "user") history.push("/");
@@ -20,23 +21,39 @@ function Sales() {
                         value.imgLink = result.data.volumeInfo.imageLinks.thumbnail;
                     });
                     await Axios.get(`http://localhost:8000/api/buyrequests/${value.id}`).then(async (result) => {
+                        console.log(Array.isArray(result.data.buyRequests) && result.data.buyRequests.length > 0 )
                         value.buyRequests = result.data.buyRequests;
-                    })
+                    });
                 });
-                changeSales(result.data.sells);
+                await changeSales(result.data.sells);
             });
         }
     }, []);
 
+    useEffect(() => {
+        console.log(sales)
+    }, [sales])
+
+    const acceptRequest = (e, res) => {
+
+    }
+
     return (
         <div>
-            {/* <button onClick={(e) => {console.log(sales)}}>click</button> */}
+            <button onClick={(e) => {console.log(sales)}}>click</button>
             <h2>My Sales</h2>
-            {sales.map((value, index) => (
-                <div key={value.id} style={{borderBlockStyle: 'solid', borderLeft: "1px", margin: "10px 25% 10px 25%"}}>
-                    <img src={value.imgLink} alt="Book" onClick={(e) => {history.push(`/book/${value.book_id}`)}}></img><br></br>
-                    <b>Title:</b> {value.title} <br></br>
-                    <b>Requests:</b>
+            {sales.map((ans, index) => (
+                <div key={ans.id} style={{borderBlockStyle: 'solid', borderLeft: "1px", margin: "10px 25% 10px 25%"}}>
+                    <img src={ans.imgLink} alt="Book" onClick={(e) => {history.push(`/book/${ans.book_id}`)}}></img><br></br>
+                    <b>Title:</b> {ans.title} <br></br>
+                    
+                    { (ans.buyRequests) ? (<div>
+                        {ans.buyRequests.map((res, index) => (
+                            <div key={index}><b>Request:</b> {res.username} - {res.status} :<button onClick={(e) => acceptRequest(e, res)}>Accept</button></div>
+                        ))}
+                    </div>) : (<div>
+                        
+                    </div>) }
                 </div>
             ))}
         </div>

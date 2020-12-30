@@ -31,7 +31,7 @@ function Register() {
             .matches(/^[a-zA-Z0-9_]*$/, "password can only contain these [a-zA-Z0-9_]").min(8, "Password too short"),
         password_confirm: Yup.string().oneOf([Yup.ref('password')], "Passwords must match").required("Passwords must match"),
         city: Yup.string(),
-        address: Yup.string().required("Address Required").min(10, "Address too short")
+        address: Yup.string().min(10, "Address too short")
     });
 
     useEffect(() => {

@@ -21,6 +21,7 @@ function NavOptions(props) {
             user: null
         }, { path: "/" });
         history.push("/");
+        changeAuth(cookies.get("auth"));
     }
 
     if(auth.auth && auth.type === "user")

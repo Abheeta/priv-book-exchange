@@ -26,8 +26,9 @@ exports.insertBuyRequests = (req, res) => {
 
 exports.queryBuyRequests = (req, res) => {
     db_connection.query(`SELECT * FROM BuyRequests WHERE sell_id="${req.params.sell_id}"`, (err, result) => {
-        res.send({
+        if(result[0]) res.send({
             buyRequests: result
-        })
+        });
+        else res.send({buyRequests: null})
     });
 }

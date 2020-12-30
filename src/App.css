@@ -39,7 +39,7 @@
 
 nav {
   display: flex;
-  /* justify-content: space-around; */
+  justify-content: space-around;
   align-items: center;
   min-height: 10vh;
   background: rgb(70, 79, 180);
@@ -51,3 +51,6 @@ nav {
   cursor: pointer;
 }
 
+img {
+  border: solid black 1px;
+}

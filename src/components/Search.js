@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Axios from 'axios';
 import "../stylesheets/Search.css"
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 function Search() {
     const [searchText, changeSearchText] = useState("");

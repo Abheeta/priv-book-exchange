@@ -4,10 +4,13 @@ import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import Cookie from "universal-cookie";
 import './App.css';
 import Register from './components/Register';
-import Test from './components/Test';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
 import Books from './components/Books';
+import Sell from './components/Sell';
+import Buy from './components/Buy';
+import Wishlist from './components/Wishlist';
+import Sales from './components/Sales';
 const cookies = new Cookie();
 
 function App() {
@@ -25,10 +28,13 @@ function App() {
       <Router>
         <Navbar />
         <Switch>
-          <Route path="/test" component={Test} />
-          <Route path="/register" component={Register} />
-          <Route path="/login" component={Login} />
-          <Route path="/book/:id" component={Books} />
+          <Route path="/register" exact component={Register} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/book/:id" exact component={Books} />
+          <Route path="/:username/sell/:book_id" exact component={Sell} />
+          <Route path="/:username/buy/:book_id" exact component={Buy} />
+          <Route path="/user/:username/wishlist" exact component={Wishlist} />
+          <Route path="/user/:username/sales" exact component={Sales} />
         </Switch>
       </Router>
     </div>

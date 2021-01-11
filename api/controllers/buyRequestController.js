@@ -32,3 +32,11 @@ exports.queryBuyRequests = (req, res) => {
         else res.send({buyRequests: null})
     });
 }
+
+exports.acceptBuyRequest = (req, res) => {
+    db_connection.query(`UPDATE BuyRequests SET status = "${req.params.status}" WHERE id = "${req.params.id}"`, (err, result) => {
+        res.status(200).send(result)
+
+    })
+}
+

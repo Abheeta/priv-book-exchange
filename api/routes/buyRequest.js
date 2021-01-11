@@ -10,4 +10,7 @@ module.exports = (router) => {
 
     router.get("/buyrequests/:sell_id", (req, res) => buyRequestController.queryBuyRequests(req, res));
 
+    router.put("/buyrequests/:id&:status", (req, res) => buyRequestController.acceptBuyRequest(req,res));
+
 };
+

@@ -10,6 +10,7 @@ function Sales() {
     const params = useParams();
     const [ auth, changeAuth ] = useState(cookies.get("auth"));
     const [ sales, changeSales ] = useState([]);
+    const [ accepted, changeAccepted ] = useState({status: false, index: null});
 
     useEffect(() => {
         if(auth.user !== params.username & auth.type !== "user") history.push("/");
@@ -23,12 +24,22 @@ function Sales() {
                     await Axios.get(`http://localhost:8000/api/buyrequests/${value.id}`).then(async (result) => {
                         console.log(Array.isArray(result.data.buyRequests) && result.data.buyRequests.length > 0 )
                         value.buyRequests = result.data.buyRequests;
+                        //if (value.buyRequests.status)
+                        //console.log(value.buyRequests);
+                        value.buyRequests.forEach((request, index) => {
+                            if (request.status === 'Accepted'){
+                                changeAccepted({
+                                    status: true,
+                                    index: index
+                                });
+                            }
+                        })
                     });
                 });
                 await changeSales(result.data.sells);
             });
         }
-    }, []);
+    },[]);
 
     useEffect(() => {
         console.log(sales)

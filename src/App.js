@@ -28,7 +28,7 @@ function App() {
     <div className="App">
       <Router>
         <Navbar />
-        <Switch>
+        <Switch><div className="contents">
           <Route path="/" exact component={Home} />
           <Route path="/register" exact component={Register} />
           <Route path="/login" exact component={Login} />
@@ -37,7 +37,7 @@ function App() {
           <Route path="/:username/buy/:book_id" exact component={Buy} />
           <Route path="/user/:username/wishlist" exact component={Wishlist} />
           <Route path="/user/:username/sales" exact component={Sales} />
-        </Switch>
+        </div></Switch>
       </Router>
     </div>
   );

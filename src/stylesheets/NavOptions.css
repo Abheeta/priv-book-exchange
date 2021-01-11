@@ -25,20 +25,20 @@
 
 .dropdown-content li {
   display: none;
-  background-color: #11e7e7;
+  background-color: rgb(204, 177, 177);
   color: black;
   padding: 12px 16px;
   text-decoration: none;
 }
 
 .dropdown-content li:hover {
-  background-color: rgb(6, 139, 111);
+  background-color: rgb(201, 151, 151);
   cursor: pointer;
 }
 
 .dropdown:hover .dropdown-content li {display: block;}
 
-.dropdown:hover .dropbtn {background-color: #0b0a7c;}
+.dropdown:hover .dropbtn {background-color: rgb(201, 151, 151);}
 
 .buttons {
   float: left;
@@ -52,4 +52,4 @@
   cursor: pointer;
 }
 
-.buttons:hover {background-color: #0b0a7c;}
+.buttons:hover {background-color: rgb(201, 151, 151);}

@@ -8,13 +8,13 @@ function Navbar() {
     var history = useHistory();
 
 
-    const homeRedirect = (event) => {
+    const homeRedirect = () => {
         history.push("/");
     }
     return (
         <div>
             <nav>
-                <h3 onClick={(e) => {homeRedirect(e)}} className = "logo">Book Exchange</h3>
+                <h3 onClick={(e) => {homeRedirect()}} className = "logo">Book Exchange</h3>
                 <Search />  
                 <NavOptions />
             </nav>

@@ -29,9 +29,9 @@ function Search() {
         history.push(`/search?q=${searchText.replace(/ /g,"+")}`);
     }
 
-    const searchBook = async (e, book) => {
+    const searchBook =  (e, book) => {
         e.preventDefault();
-        await changeSearchText("");
+        changeSearchText("");
         history.push(`/book/${book.id}`)
     }
     

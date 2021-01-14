@@ -1,4 +1,4 @@
-input[type=text] {
+input[type=text].search {
     width: 180px;
     height: 50%;
     border: 2px solid #ccc;

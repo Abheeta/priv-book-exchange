@@ -2,7 +2,6 @@ import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import Cookie from "universal-cookie";
-import { string } from 'yup';
 const cookies = new Cookie();
 
 function Sales() {
@@ -10,7 +9,7 @@ function Sales() {
     const params = useParams();
     const [ auth, changeAuth ] = useState(cookies.get("auth"));
     const [ sales, changeSales ] = useState([]);
-    const [ accepted, changeAccepted ] = useState({status: false, index: null});
+    const [ accepted, changeAccepted ] = useState([]);
 
     useEffect(() => {
         if(auth.user !== params.username & auth.type !== "user") history.push("/");
@@ -24,43 +23,63 @@ function Sales() {
                     await Axios.get(`http://localhost:8000/api/buyrequests/${value.id}`).then(async (result) => {
                         console.log(Array.isArray(result.data.buyRequests) && result.data.buyRequests.length > 0 )
                         value.buyRequests = result.data.buyRequests;
-                        //if (value.buyRequests.status)
-                        //console.log(value.buyRequests);
-                        value.buyRequests.forEach((request, index) => {
-                            if (request.status === 'Accepted'){
-                                changeAccepted({
-                                    status: true,
-                                    index: index
-                                });
-                            }
-                        })
+                        value.accepted = result.data.accepted;
+                        changeAccepted({status: true, index: 0});
                     });
                 });
-                await changeSales(result.data.sells);
+                changeSales(result.data.sells);
             });
         }
-    },[]);
-
-    useEffect(() => {
-        console.log(sales)
-    }, [sales])
+    }, [auth.type, auth.user, history, params.username, accepted.status]);
 
     const acceptRequest = (e, res) => {
+        Axios.put(`http://localhost:8000/api/buyrequests/${res.id}&Accepted`).then((result) => {
+            alert("You have accepted this request.");
+            changeAccepted({status: !accepted.status, index: 0});
+        });
+    }
 
+    const declineRequest = (e, res) => {
+        Axios.put(`http://localhost:8000/api/buyrequests/${res.id}&Declined`).then((result) => {
+            alert("You have declined this request.");
+            changeAccepted({status: !accepted.status, index: 0});
+        });
+    }
+
+    const chooseDelivery = (e, res) => {
+        history.push(`/user/${auth.user}/sales/${res.id}/deliver`, res);
     }
 
     return (
         <div>
-            <button onClick={(e) => {console.log(sales)}}>click</button>
+            <h1 style={{display: "none"}}>{accepted.status ? (<div>yes</div>) : (<div>no</div>)}</h1>
             <h2>My Sales</h2>
             {sales.map((ans, index) => (
                 <div key={ans.id} style={{borderBlockStyle: 'solid', borderLeft: "1px", margin: "10px 25% 10px 25%"}}>
                     <img src={ans.imgLink} alt="Book" onClick={(e) => {history.push(`/book/${ans.book_id}`)}}></img><br></br>
                     <b>Title:</b> {ans.title} <br></br>
+                    <b>Price:</b> {ans.price} <br></br>
+                    <b>Description:</b> {ans.description} <br></br>
+                    <b>Requests:</b>
                     
                     { (ans.buyRequests) ? (<div>
                         {ans.buyRequests.map((res, index) => (
-                            <div key={index}><b>Request:</b> {res.username} - {res.status} :<button onClick={(e) => acceptRequest(e, res)}>Accept</button></div>
+                            <div key={index}>
+                                {ans.accepted ? res.status === "Accepted" ? (<div>
+                                    {index+1}) {res.username} - Waiting for Payment
+                                </div>) : res.status === "Purchased" ? (<div>
+                                    {index+1}) {res.username} - Purchased<br/>
+                                    <button onClick={(e) => chooseDelivery(e, res)}>Deliver</button>
+                                </div>) : (<div>
+                                    {index+1}) {res.username} - To Be Delivered
+                                </div>)
+                                : (<div>
+                                    {index+1}) {res.username} - {res.status}: 
+                                    <button onClick={(e) => acceptRequest(e, res)}>Accept</button>
+                                    <button onClick={(e) => declineRequest(e, res)}>Decline</button>
+                                </div>)}
+                                
+                            </div>
                         ))}
                     </div>) : (<div>
                         

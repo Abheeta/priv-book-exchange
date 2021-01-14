@@ -49,10 +49,10 @@ nav {
   z-index: 1000;
   background: rgb(201, 151, 151);
   color: white;
-background: -moz-linear-gradient(top, #fefcea 0%,rgb(201, 151, 151) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top, #fefcea 0%,rgb(201, 151, 151) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom, #fefcea 0%,rgb(201, 151, 151)100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', endColorstr='#f1da36',GradientType=0 );
+  background: -moz-linear-gradient(top, #fefcea 0%,rgb(201, 151, 151) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #fefcea 0%,rgb(201, 151, 151) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #fefcea 0%,rgb(201, 151, 151)100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', endColorstr='#f1da36',GradientType=0 );
 }
 
 .logo{
@@ -65,5 +65,5 @@ img {
 }
 
 .contents {
-  padding-top: 14vh;
+  padding-top: 85px;
 }

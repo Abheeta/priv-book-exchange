@@ -1,9 +1,4 @@
-// const express = require("express");
-// const router = express.Router();
 const wishlistController = require("../controllers/wishlistController.js");
-
-// router.use(express.json());
-// router.use(express.urlencoded());
 
 module.exports = (router) => {
     router.post("/wishlists", (req, res) => wishlistController.insertWishlist(req, res));

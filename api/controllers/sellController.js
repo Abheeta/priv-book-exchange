@@ -39,9 +39,18 @@ exports.getSells = (req, res) => {
 }
 
 exports.querySells = (req, res) => {
-    db_connection.query(`SELECT * FROM Sells WHERE username="${req.query.username}"`, (err, result) => {
-        res.status(200).send({
-            sells: result
+    if(req.query.username) {
+        db_connection.query(`SELECT * FROM Sells WHERE username="${req.query.username}"`, (err, result) => {
+            res.status(200).send({
+                sells: result
+            });
         });
-    });
+    }
+    else {
+        db_connection.query(`SELECT * FROM Sells WHERE id="${req.query.sell_id}"`, (err, result) => {
+            res.status(200).send({
+                sells: result
+            });
+        });
+    }
 }

@@ -31,14 +31,14 @@ function Search() {
 
     const searchBook =  (e, book) => {
         e.preventDefault();
-        changeSearchText("");
-        history.push(`/book/${book.id}`)
+        // changeSearchText("");
+        // history.push(`/book/${book.id}`)
     }
     
     return (
         <div>
             <form onSubmit = {(e) => finishSearch(e) }>
-                <input type="text" placeholder="Search for a book" value={searchText} onChange={(e) => changeSearchText(e.target.value)}/>
+                <input type="text" className="search" placeholder="Search for a book" value={searchText} onChange={(e) => changeSearchText(e.target.value)}/>
                 {searchResults.length > 0 ?
                 (<div className="dropdown-content">
                     {searchResults.map((result, index) => {
@@ -47,12 +47,7 @@ function Search() {
                 </div>) :
                 (<div></div>)
             }
-
-                
             </form>
-            {/* <button onClick= {(e) => console.log(searchResults)}>button</button> */}
-
-            
         </div>
     )
 }

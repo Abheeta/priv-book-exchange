@@ -11,9 +11,7 @@ function Books() {
     const [ id, changeId ] = useState(params.id);
     const [ availability, changeAvailability ] = useState(0);
     const [ inWishlist, changeInWishlist ] = useState(false);
-    const history = useHistory();
-    // console.log(params);
-    
+    const history = useHistory();    
 
     useEffect(() => {
         changeId(params.id);
@@ -26,7 +24,6 @@ function Books() {
         });
 
         Axios.get(`http://localhost:8000/api/wishlists/${cookies.get("auth").user}&${params.id}`).then((result) => {
-            console.log(result);
             changeInWishlist(result.data.exists);
         });
     }, []);
@@ -37,7 +34,6 @@ function Books() {
         });
 
         Axios.get(`http://localhost:8000/api/wishlists/${cookies.get("auth").user}&${params.id}`).then((result) => {
-            console.log(result);
             changeInWishlist(result.data.exists);
         });
         
@@ -90,7 +86,6 @@ function Books() {
             }).then(async (result) => {
                 await alert("Book has been added to your wishlist!");
                 changeInWishlist(true);
-                // history.push("/");
             });
         });
         else 

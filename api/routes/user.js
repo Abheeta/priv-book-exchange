@@ -12,4 +12,8 @@ module.exports = (router) => {
 
     router.get("/users/:username", (req, res) => userController.checkUsername(req, res, "Users"));
 
+    router.get("/users", (req, res) => userController.getUser(req, res, "Users"));
+
+    router.put("/users/:username", (req, res) => userController.updateUser(req, res, "Users"));
+
 };

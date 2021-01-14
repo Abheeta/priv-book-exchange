@@ -12,6 +12,11 @@ import Buy from './components/Buy';
 import Wishlist from './components/Wishlist';
 import Sales from './components/Sales';
 import Home from './components/Home';
+import Requests from './components/Requests';
+import Purchase from './components/Purchase';
+import DeliverSale from './components/DeliverSale';
+import MyDeliveries from './components/MyDeliveries';
+import Profile from './components/Profile';
 const cookies = new Cookie();
 
 function App() {
@@ -37,6 +42,12 @@ function App() {
           <Route path="/:username/buy/:book_id" exact component={Buy} />
           <Route path="/user/:username/wishlist" exact component={Wishlist} />
           <Route path="/user/:username/sales" exact component={Sales} />
+          <Route path="/user/:username/requests" exact component={Requests} />
+          <Route path="/purchase/:sell_id" exact component={Purchase} />
+          <Route path="/user/:username/sales/:sell_id/deliver" exact component={DeliverSale} />
+          <Route path="/delivery-user/:username/deliveries" exact component={MyDeliveries} />
+          <Route path="/user/:username" exact component={Profile} />
+          <Route path="/delivery-user/:username" exact component={Profile} />
         </div></Switch>
       </Router>
     </div>

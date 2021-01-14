@@ -20,7 +20,7 @@ function NavOptions(props) {
             type: "none", 
             user: null
         }, { path: "/" });
-        history.push("/");
+        history.push("");
         changeAuth(cookies.get("auth"));
     }
 
@@ -32,7 +32,7 @@ function NavOptions(props) {
                     <li onClick={(e) => {history.push(`/user/${auth.user}`)}}>My Account</li>
                     <li onClick={(e) => {history.push(`/user/${auth.user}/wishlist`)}}>My Wishlist</li>
                     <li onClick={(e) => {history.push(`/user/${auth.user}/sales`)}}>Sales</li>
-                    <li onClick={(e) => {history.push(`/user/${auth.user}/orders`)}}>Orders</li>
+                    <li onClick={(e) => {history.push(`/user/${auth.user}/requests`)}}>My Requests</li>
                     <li onClick={(e) => {logOut(e)}}>Log Out</li>
                 </div>
             </div>

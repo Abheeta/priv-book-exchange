@@ -40,7 +40,6 @@ exports.validateLogin = (req, res, type) => {
         (err, result) => {
             if (err) throw err;
             user = result[0];
-
             if (! user) {
                 res.send({
                     err: true,
@@ -55,7 +54,6 @@ exports.validateLogin = (req, res, type) => {
                             message: "Incorrect Password"
                         });
                     }
-
                     else {
                         res.status(200).send({
                             err: false,
@@ -72,7 +70,6 @@ exports.checkUsername = (req, res, type) => {
     db_connection.query(
         `SELECT username FROM ${type} WHERE username = "${req.params.username}";`,
         (err, result) => {
-            // if (err) throw err;
             user = result[0];
 
             if(user) {
@@ -89,3 +86,42 @@ exports.checkUsername = (req, res, type) => {
             }
         });
 };
+
+exports.getUser = (req, res, type) => {
+    db_connection.query(
+        `SELECT * FROM ${type} WHERE username = "${req.query.username}";`,
+        (err, result) => {
+            user = result[0];
+
+            if(user) {
+                res.send({
+                    err: true,
+                    ...user
+                });
+            }
+            else {
+                res.status(200).send({
+                    err: false
+                })
+            }
+        });
+}
+
+exports.updateUser = (req, res, type) => {
+    bcryptjs.genSalt(10, (err, salt) => {
+        if(err) throw err;
+        bcryptjs.hash(req.body.password, salt, (err, hash) => {
+            db_connection.query(`UPDATE ${type} SET 
+                    name="${req.body.name}",
+                    username="${req.body.username}",
+                    email="${req.body.email}",
+                    city="${req.body.city}",
+                    password
+                    ${ type == "Users" ? `address="${req.body.address}"` : `status="${parseInt(req.body.status)}"`}
+                WHERE username="${req.params.username}"`, (err, result) => {
+                    if(err) throw err;
+                    res.send(result);
+                });
+        });
+    });
+}

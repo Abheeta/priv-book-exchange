@@ -7,6 +7,7 @@ const bookRouter = require("./api/routes/book.js")
 const sellRouter = require("./api/routes/sell.js")
 const wishlistRouter = require("./api/routes/wishlist.js")
 const buyRequestRouter = require("./api/routes/buyRequest.js")
+const deliveryStatusRouter = require("./api/routes/deliveryStatus.js")
 const app = express();
 const cors = require("cors");
 
@@ -21,6 +22,7 @@ bookRouter(router);
 sellRouter(router);
 wishlistRouter(router);
 buyRequestRouter(router);
+deliveryStatusRouter(router);
 app.use("/api", router);
 
 const db_connection = require("./schema/schema.js");

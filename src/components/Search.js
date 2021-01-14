@@ -38,7 +38,7 @@ function Search() {
     return (
         <div>
             <form onSubmit = {(e) => finishSearch(e) }>
-                <input type="text" placeholder="Search for a book" value={searchText} onChange={(e) => changeSearchText(e.target.value)}/>
+                <input type="text" className="search" placeholder="Search for a book" value={searchText} onChange={(e) => changeSearchText(e.target.value)}/>
                 {searchResults.length > 0 ?
                 (<div className="dropdown-content">
                     {searchResults.map((result, index) => {

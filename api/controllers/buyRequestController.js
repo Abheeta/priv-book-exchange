@@ -24,19 +24,38 @@ exports.insertBuyRequests = (req, res) => {
     }
 )}
 
+exports.getBuyRequests = (req, res) => {
+    db_connection.query(`SELECT * FROM BuyRequests WHERE sell_id="${req.params.sell_id}" and (status="Accepted" or status="Purchased" or status="Delivering")`, (err, result) => {
+        if(result[0]) {
+            res.send({
+                buyRequests: result,
+                accepted: true
+            });
+        }
+        else {
+            db_connection.query(`SELECT * FROM BuyRequests WHERE sell_id="${req.params.sell_id}" and status="Requested"`, (err2, result2) => {
+                if(result2[0]) res.send({
+                    buyRequests: result2,
+                    accepted: false
+                });
+                else res.send({buyRequests: [], accepted: false});
+            }
+        )}
+    });
+}
+
 exports.queryBuyRequests = (req, res) => {
-    db_connection.query(`SELECT * FROM BuyRequests WHERE sell_id="${req.params.sell_id}"`, (err, result) => {
+    db_connection.query(`SELECT * FROM BuyRequests WHERE username="${req.query.username}"`, (err, result) => {
         if(result[0]) res.send({
-            buyRequests: result
+            buyRequests: result,
         });
-        else res.send({buyRequests: null})
+        else res.send({buyRequests: []});
     });
 }
 
 exports.acceptBuyRequest = (req, res) => {
     db_connection.query(`UPDATE BuyRequests SET status = "${req.params.status}" WHERE id = "${req.params.id}"`, (err, result) => {
         res.status(200).send(result)
-
     })
 }
 

@@ -38,7 +38,7 @@ function Home() {
             <div className="howto">
                 <img className="deliverImage" src = {deliverbook}></img>
                 <div className="howToContent">
-                    <h3>Buy books</h3>
+                    <h3>Get Books Delivered</h3>
                     <b>Have books delivered at your doorstep<br></br>
                     for exchanges within the same city.
                     </b>

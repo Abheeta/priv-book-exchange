@@ -20,6 +20,7 @@ import Profile from './components/Profile';
 const cookies = new Cookie();
 
 function App() {
+  document.title = "Book Exchange";
   if(cookies.get("auth") == undefined) {
     cookies.set("auth", {
       auth: false, 

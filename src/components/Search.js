@@ -25,14 +25,14 @@ function Search() {
 
     const finishSearch = async (e) => {
         e.preventDefault();
-        await changeSearchText("");
-        history.push(`/search?q=${searchText.replace(/ /g,"+")}`);
+        // await changeSearchText("");
+        // history.push(`/search?q=${searchText.replace(/ /g,"+")}`);
     }
 
     const searchBook =  (e, book) => {
         e.preventDefault();
-        // changeSearchText("");
-        // history.push(`/book/${book.id}`)
+        changeSearchText("");
+        history.push(`/book/${book.id}`)
     }
     
     return (

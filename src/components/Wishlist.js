@@ -11,6 +11,7 @@ function Wishlist() {
     const [ auth, changeAuth ] = useState(cookies.get("auth"));
     const [ wishlist, changeWishlist ] = useState([]);
     const [ bookList, changeBookList ] = useState([]);
+    const [ accepted, changeAccepted ] = useState([]);
 
     useEffect(() => {
         if(auth.user !== params.username & auth.type !== "user") history.push("/");
@@ -20,55 +21,25 @@ function Wishlist() {
                     await Axios.get(`https://www.googleapis.com/books/v1/volumes/${value.book_id}`).then((result) => {
                         value.title = result.data.volumeInfo.title;
                         value.imgLink = result.data.volumeInfo.imageLinks.thumbnail;
+                        changeAccepted({status: true, index: 0});
                     });
                 });
                 changeWishlist(result.data.wishlist);
             });
         }
-    }, []);
-
-    useEffect(() => {
-        console.log("rerender")
-    }, [wishlist])
+    }, [auth.type, auth.user, history, params.username, accepted.status]);
 
     // useEffect(() => {
-    //     // var list = [];
-
-    //     // async wisfor(var i = 0; i < wishlist.length; i++) {
-    //     //     await Axios.get(`https://www.googleapis.com/books/v1/volumes/${wishlist[i].book_id}`).then((result) => {
-    //     //         list = list + {
-    //     //             title: result.data.volumeInfo.title,
-    //     //             imgLink: result.data.volumeInfo.imageLinks.thumbnail
-    //     //         }
-    //     //     });
-    //     // }
-
-    //     wishlist.forEach(async (value, index) => {
-    //         await Axios.get(`https://www.googleapis.com/books/v1/volumes/${value.book_id}`).then((result) => {
-    //             var list = [];
-    //             // list = list.push({
-    //             //     title: result.data.volumeInfo.title,
-    //             //     imgLink: result.data.volumeInfo.imageLinks.thumbnail
-    //             // })
-    //             console.log(result)
-    //             console.log(list);
-    //             changeBookList(list)
-    //         });
-    //     });
-    //     // console.log(list)
-    //     // changeBookList(list);
-    // }, [wishlist]);
-
+    //     console.log("rerender")
+    // }, [wishlist])
 
     return (
         <div>
+            <h1 style={{display: "none"}}>{accepted.status ? (<div>yes</div>) : (<div>no</div>)}</h1>
             <h2>My Wishlist</h2>
             {wishlist.map((value, index) => (
                 <div key={value.id} style={{borderBlockStyle: 'solid', borderLeft: "1px", margin: "10px 25% 10px 25%"}}>
                     <img src={value.imgLink} alt="Book" onClick={(e) => {history.push(`/book/${value.book_id}`)}}></img><br></br>
-                    {/* {value.imgLink} */}
-                    {/* {value.book_id} */}
-                    {/* <button onClick={(e) => {console.log(wishlist)}}>Click</button> */}
                     <b>Title:</b> {value.title} <br></br>
                     <b>Availabilty:</b> {value.available == 1 ? "Yes" : "No"} <br></br>
                     <button onClick={(e) => {history.push(`/${auth.user}/buy/${value.book_id}`)}}>Buy</button>

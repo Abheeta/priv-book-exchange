@@ -20,7 +20,6 @@ import Profile from './components/Profile';
 const cookies = new Cookie();
 
 function App() {
-  console.log("auth=", cookies.get("auth"));
   if(cookies.get("auth") == undefined) {
     cookies.set("auth", {
       auth: false, 

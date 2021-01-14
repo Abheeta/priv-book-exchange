@@ -106,22 +106,3 @@ exports.getUser = (req, res, type) => {
             }
         });
 }
-
-exports.updateUser = (req, res, type) => {
-    bcryptjs.genSalt(10, (err, salt) => {
-        if(err) throw err;
-        bcryptjs.hash(req.body.password, salt, (err, hash) => {
-            db_connection.query(`UPDATE ${type} SET 
-                    name="${req.body.name}",
-                    username="${req.body.username}",
-                    email="${req.body.email}",
-                    city="${req.body.city}",
-                    password
-                    ${ type == "Users" ? `address="${req.body.address}"` : `status="${parseInt(req.body.status)}"`}
-                WHERE username="${req.params.username}"`, (err, result) => {
-                    if(err) throw err;
-                    res.send(result);
-                });
-        });
-    });
-}

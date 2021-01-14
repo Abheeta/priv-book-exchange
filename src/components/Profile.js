@@ -20,10 +20,6 @@ function Profile() {
         }
     }, [auth.type, auth.user, history, params.username]);
 
-    const updateUser = (e) => {
-        history.push(`/${auth.type}/${auth.user}/update`);
-    }
-
     return (
         <div>
             <h3>My Profile</h3><br/>
@@ -34,9 +30,8 @@ function Profile() {
             {auth.type === "user" ? (<div>
                 <b>Address: </b>{user.address}<br/>
             </div>) : (<div>
-                <b>Status: </b>{user.status === 1 ? "Currently Delivering" : "Not Delivering"}<br/>
+                <b>Status: </b>{user.status === 1 ? "Currently Delivering" : "Not Delivering"}<br/> 
             </div>)}<br/>
-            {/* <button onClick={(e) => updateUser(e)}>Update Profile</button> */}
         </div>
     )
 }

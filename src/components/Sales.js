@@ -33,7 +33,6 @@ function Sales() {
     }, [auth.type, auth.user, history, params.username, accepted.status]);
 
     const acceptRequest = (e, res) => {
-        console.log(res.id);
         Axios.put(`http://localhost:8000/api/buyrequests/${res.id}&Accepted`).then((result) => {
             alert("You have accepted this request.");
             changeAccepted({status: !accepted.status, index: 0});
@@ -41,7 +40,6 @@ function Sales() {
     }
 
     const declineRequest = (e, res) => {
-        console.log(res.id);
         Axios.put(`http://localhost:8000/api/buyrequests/${res.id}&Declined`).then((result) => {
             alert("You have declined this request.");
             changeAccepted({status: !accepted.status, index: 0});

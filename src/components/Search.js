@@ -31,8 +31,8 @@ function Search() {
 
     const searchBook =  (e, book) => {
         e.preventDefault();
-        changeSearchText("");
-        history.push(`/book/${book.id}`)
+        // changeSearchText("");
+        // history.push(`/book/${book.id}`)
     }
     
     return (
@@ -47,12 +47,7 @@ function Search() {
                 </div>) :
                 (<div></div>)
             }
-
-                
             </form>
-            {/* <button onClick= {(e) => console.log(searchResults)}>button</button> */}
-
-            
         </div>
     )
 }

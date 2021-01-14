@@ -1,9 +1,4 @@
-// const express = require("express");
-// const router = express.Router();
 const userController = require("../controllers/userController.js");
-
-// router.use(express.json());
-// router.use(express.urlencoded());
 
 module.exports = (router) => {
     router.post("/delivery-users/", (req, res) => userController.createUser(req, res, "DeliveryUsers"));

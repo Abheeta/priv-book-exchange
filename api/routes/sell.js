@@ -1,9 +1,4 @@
-// const express = require("express");
-// const router = express.Router();
 const sellController = require("../controllers/sellController.js");
-
-// router.use(express.json());
-// router.use(express.urlencoded());
 
 module.exports = (router) => {
     router.post("/sells", (req, res) => sellController.insertSells(req, res));

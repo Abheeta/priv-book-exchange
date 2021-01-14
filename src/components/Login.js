@@ -23,7 +23,6 @@ function Login() {
     });
 
     useEffect(() => {
-        console.log("logging in");
         if(cookies.get("auth").auth) {
             history.push("/");
         }
@@ -33,7 +32,6 @@ function Login() {
         console.log(values);
         const url = loginType === "User" ? "user" : "delivery-user";
         await Axios.get(`http://localhost:8000/api/${url}s/${values.username}&${values.password}`).then((res) => {
-            console.log(res);
             if(res.data.err) {
                 changeFail({
                     fail: true,

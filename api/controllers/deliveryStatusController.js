@@ -2,7 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const db_connection = require("../../schema/schema.js");
-const bcryptjs = require("bcryptjs");
 
 app.use(bodyParser.urlencoded({extended: true}));
 
